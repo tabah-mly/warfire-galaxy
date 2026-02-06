@@ -2,8 +2,6 @@ import pygame, sys, random
 from utils.camera import Camera
 from utils.infinite_background import InfiniteBackground
 from player import Player
-from enemy import Enemy
-from base import Base
 
 
 class GameBasic:
@@ -27,8 +25,6 @@ class GameBasic:
         else:
             spawn_x = cam_x + self.screen_width + random.randint(300, 600)
 
-        enemy = Enemy(spawn_x)
-        self.enemies.append(enemy)
 
     def event_listener(self):
         for event in pygame.event.get():
@@ -72,7 +68,4 @@ class GameBasic:
         pygame.draw.rect(self.screen, (90, 200, 90), (x, y, w * ratio, h))
 
     def draw_base_health(self, x, y, w, h):
-        ratio = self.base.health / self.base.max_health
-
-        pygame.draw.rect(self.screen, (60, 60, 60), (x, y, w, h))
-        pygame.draw.rect(self.screen, (120, 200, 255), (x, y, w * ratio, h))
+        pass
