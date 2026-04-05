@@ -2,10 +2,12 @@ import pygame, sys, random
 from utils.camera import Camera
 from utils.infinite_background import InfiniteBackground
 from player import Player
+from enemy import Enemy
+from utils.ui import Ui
 
 
-class GameBasic:
-    def __init__(self):
+class GameBase:
+    def initialize(self):
         pygame.init()
 
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
@@ -17,6 +19,8 @@ class GameBasic:
 
         self.bullets = []
 
+        self.ui = Ui(self.screen)
+
     def spawn_enemy_offscreen(self):
         cam_x = self.camera.offset.x
 
@@ -25,11 +29,8 @@ class GameBasic:
         else:
             spawn_x = cam_x + self.screen_width + random.randint(300, 600)
 
-
-    def event_listener(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running = False
+        enemy = Enemy(spawn_x)
+        self.enemies.append(enemy)
 
     def update_enemies(self, dt, max_enemies):
         if len(self.enemies) < max_enemies:
@@ -37,6 +38,7 @@ class GameBasic:
             if self.spawn_timer <= 0:
                 self.spawn_timer = self.spawn_interval
                 self.spawn_enemy_offscreen()
+                print("spawn")
 
         for enemy in self.enemies:
             enemy.update(dt, self.player, self.base)

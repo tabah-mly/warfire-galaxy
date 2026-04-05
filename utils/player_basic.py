@@ -56,11 +56,11 @@ class PlayerBasic:
 
     def draw(self, surface, camera):
         image = self.animator.image
-
         base_center = self.rect.center - camera.offset
-
         mouse_x = pygame.mouse.get_pos()[0]
-        self.facing_right = mouse_x >= base_center.x
+
+        if self.aim_pointer.is_active:
+            self.facing_right = mouse_x >= base_center.x
 
         if not self.facing_right:
             image = pygame.transform.flip(image, True, False)
@@ -72,9 +72,6 @@ class PlayerBasic:
 
         for bullet in self.bullets:
             bullet.draw(surface, camera)
-
-        self.last_pointer_pos = self.aim_pointer.pointer_pos
-        self.last_direction = self.aim_pointer.direction
 
     def shoot(self, pointer_pos, direction):
         bullet = Bullet(pointer_pos, direction)
