@@ -1,9 +1,9 @@
 import pygame, sys, random
 from utils.camera import Camera
-from utils.game_basic import GameBasic
+from utils.game_base import GameBase
 from utils.infinite_background import InfiniteBackground
 
-class Game(GameBasic):
+class Game(GameBase):
     def __init__(self):
         pass
 

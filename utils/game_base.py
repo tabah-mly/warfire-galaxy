@@ -1,11 +1,8 @@
 import pygame, sys, random
-from utils.camera import Camera
-from utils.infinite_background import InfiniteBackground
-from player import Player
 
 
-class GameBasic:
-    def __init__(self):
+class GameBase:
+    def initialize(self):
         pygame.init()
 
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
