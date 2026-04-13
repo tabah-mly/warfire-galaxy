@@ -24,7 +24,6 @@ class Game(GameBase):
         pass
 
     def draw(self):
-        self.screen.fill((24, 20, 37))
         pass
 
     def start(self):
