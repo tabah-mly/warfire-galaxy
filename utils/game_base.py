@@ -1,7 +1,4 @@
 import pygame, sys, random
-from utils.camera import Camera
-from utils.infinite_background import InfiniteBackground
-from player import Player
 from enemy import Enemy
 from utils.ui import Ui
 

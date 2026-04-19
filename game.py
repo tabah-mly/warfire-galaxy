@@ -28,7 +28,7 @@ class Game(GameBase):
 
         self.spawn_interval = 2000
 
-        self.timer = 3000
+        self.timer = 300000
 
         self.game_over = GameOver(width, height)
 
