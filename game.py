@@ -23,7 +23,7 @@ class Game(GameBase):
         self.base = Base(400, 300)
 
         self.spawn_interval = 2000
-        self.timer = 10000000
+        self.timer = 180000
         self.max_enemies = 8
 
     def event_listener(self):

@@ -41,7 +41,7 @@ class PlayerBasic:
         for bullet in self.bullets:
             bullet.update(dt)
 
-    def handle_ground(self, dt):
+    def handle_ground(self, dt, ground):
         dt_sec = dt / 1000.0
 
         self.vel_y += self.gravity * dt_sec
@@ -49,8 +49,8 @@ class PlayerBasic:
         self.rect.x += self.vel_x * dt_sec
         self.rect.y += self.vel_y * dt_sec
 
-        if self.rect.bottom >= 500:
-            self.rect.bottom = 500
+        if self.rect.bottom >= ground:
+            self.rect.bottom = ground
             self.vel_y = 0
             self.on_ground = True
 
@@ -82,10 +82,11 @@ class PlayerBasic:
         if self.health < 0:
             self.health = 0
 
-    def handle_attack(self, dt):
+    def handle_animation(self, dt):
         self._update_state()
         self.animator.update(dt)
 
+    def handle_attack(self, dt):
         self.shoot_timer -= dt
         mouse_pressed = pygame.mouse.get_pressed()[0]
 
