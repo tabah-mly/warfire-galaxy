@@ -81,3 +81,16 @@ class PlayerBasic:
         self.health -= amount
         if self.health < 0:
             self.health = 0
+
+    def handle_attack(self, dt):
+        self._update_state()
+        self.animator.update(dt)
+
+        self.shoot_timer -= dt
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+
+        if mouse_pressed and self.shoot_timer <= 0:
+            self.shoot_timer = self.shoot_cooldown
+            self.shoot(self.aim_pointer.pointer_pos, self.aim_pointer.direction)
+
+        self.bullet_update(dt)

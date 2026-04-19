@@ -1,5 +1,6 @@
 import pygame, sys, random
 from enemy import Enemy
+from utils.camera import Camera
 from utils.game_over import GameOver
 from utils.ui import Ui
 
@@ -19,6 +20,7 @@ class GameBase:
 
         self.ui = Ui(self.screen)
         self.game_over = GameOver(self.screen_width, self.screen_height)
+        self.camera = Camera(self.screen_width, self.screen_height)
 
     def spawn_enemy_offscreen(self):
         cam_x = self.camera.offset.x
@@ -89,10 +91,10 @@ class GameBase:
         if self.game_state == "win" or self.game_state == "lose":
             self.player.aim_pointer.is_active = False
             self.game_over.update(dt)
-            return
+            return True
 
         if self.game_state != "playing":
-            return
+            return True
 
         self.timer -= dt
         if self.timer <= 0:
