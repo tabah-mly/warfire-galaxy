@@ -35,7 +35,6 @@ class GameBase:
             if self.spawn_timer <= 0:
                 self.spawn_timer = self.spawn_interval
                 self.spawn_enemy_offscreen()
-                print("spawn")
 
         for enemy in self.enemies:
             enemy.update(dt, self.player, self.base)
