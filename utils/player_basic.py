@@ -41,7 +41,7 @@ class PlayerBasic:
         for bullet in self.bullets:
             bullet.update(dt)
 
-    def handle_ground(self, dt):
+    def handle_ground(self, dt, ground):
         dt_sec = dt / 1000.0
 
         self.vel_y += self.gravity * dt_sec
@@ -49,18 +49,18 @@ class PlayerBasic:
         self.rect.x += self.vel_x * dt_sec
         self.rect.y += self.vel_y * dt_sec
 
-        if self.rect.bottom >= 500:
-            self.rect.bottom = 500
+        if self.rect.bottom >= ground:
+            self.rect.bottom = ground
             self.vel_y = 0
             self.on_ground = True
 
     def draw(self, surface, camera):
         image = self.animator.image
-
         base_center = self.rect.center - camera.offset
-
         mouse_x = pygame.mouse.get_pos()[0]
-        self.facing_right = mouse_x >= base_center.x
+
+        if self.aim_pointer.is_active:
+            self.facing_right = mouse_x >= base_center.x
 
         if not self.facing_right:
             image = pygame.transform.flip(image, True, False)
@@ -73,9 +73,6 @@ class PlayerBasic:
         for bullet in self.bullets:
             bullet.draw(surface, camera)
 
-        self.last_pointer_pos = self.aim_pointer.pointer_pos
-        self.last_direction = self.aim_pointer.direction
-
     def shoot(self, pointer_pos, direction):
         bullet = Bullet(pointer_pos, direction)
         self.bullets.append(bullet)
@@ -84,3 +81,17 @@ class PlayerBasic:
         self.health -= amount
         if self.health < 0:
             self.health = 0
+
+    def handle_animation(self, dt):
+        self._update_state()
+        self.animator.update(dt)
+
+    def handle_attack(self, dt):
+        self.shoot_timer -= dt
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+
+        if mouse_pressed and self.shoot_timer <= 0:
+            self.shoot_timer = self.shoot_cooldown
+            self.shoot(self.aim_pointer.pointer_pos, self.aim_pointer.direction)
+
+        self.bullet_update(dt)

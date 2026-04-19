@@ -1,8 +1,9 @@
-import pygame, sys, random
-from utils.camera import Camera
+import pygame, sys
 from utils.game_base import GameBase
 from utils.infinite_background import InfiniteBackground
 from player import Player
+from base import Base
+
 
 class Game(GameBase):
     def __init__(self, width, height, title):
@@ -12,18 +13,24 @@ class Game(GameBase):
 
         self.initialize()
 
+        self.running = True
+        self.game_state = "playing"
+
         pygame.display.set_caption(title)
 
-        self.running = True
-
         self.background = InfiniteBackground("assets/imgs/bg.png")
-        self.camera = Camera(width, height)
-        self.player = Player(width // 2, height // 2)
+        self.player = Player(400, 500)
+        self.base = Base(400, 300)
+
+        self.spawn_interval = 2000
+        self.timer = 180000
+        self.max_enemies = 8
 
     def event_listener(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            self.screen_event_listener(event)
 
     def update(self, dt):
         pass

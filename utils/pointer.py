@@ -14,7 +14,15 @@ class Pointer:
             pygame.Vector2(-self.arrow_length, -self.arrow_width),
         ]
 
+        self.is_active = True
+
+        self.pointer_pos = pygame.Vector2(-10,-10)
+        self.direction = pygame.Vector2(-10,-10)
+
     def draw(self, surface, base_center, facing_right, camera):
+        if not self.is_active:
+            return
+        
         mouse_x, mouse_y = pygame.mouse.get_pos()
         mouse_pos = pygame.Vector2(mouse_x, mouse_y)
 
