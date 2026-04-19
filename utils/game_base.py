@@ -1,5 +1,6 @@
 import pygame, sys, random
 from enemy import Enemy
+from utils.game_over import GameOver
 from utils.ui import Ui
 
 
@@ -17,6 +18,7 @@ class GameBase:
         self.bullets = []
 
         self.ui = Ui(self.screen)
+        self.game_over = GameOver(self.screen_width, self.screen_height)
 
     def spawn_enemy_offscreen(self):
         cam_x = self.camera.offset.x
@@ -67,3 +69,55 @@ class GameBase:
 
     def draw_base_health(self, x, y, w, h):
         pass
+
+    def screen_event_listener(self, event):
+        if self.game_state == "win" or self.game_state == "lose":
+            if self.game_over.handle_event(event):
+                self.restart()
+
+        if self.game_state == "upgrade":
+            print("UPGRADE")
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_TAB:
+                if self.game_state == "playing":
+                    self.game_state = "upgrade"
+                elif self.game_state == "upgrade":
+                    self.game_state = "playing"
+
+    def update_game(self, dt):
+        if self.game_state == "win" or self.game_state == "lose":
+            self.player.aim_pointer.is_active = False
+            self.game_over.update(dt)
+            return
+
+        if self.game_state != "playing":
+            return
+
+        self.timer -= dt
+        if self.timer <= 0:
+            self.game_state = "win"
+            self.timer = 0
+
+        if self.base.health <= 0 or self.player.health <= 0:
+            self.game_state = "lose"
+
+    def update_logics(self, dt):
+        self.update_enemies(dt, self.max_enemies)
+        self.update_bullets()
+        self.camera.follow(self.player.rect)
+
+    def draw_view(self):
+        for enemy in self.enemies:
+            enemy.draw(self.screen, self.camera)
+
+        self.draw_player_health(20, 20, 300, 20)
+        self.draw_base_health(20, 60, 300, 20)
+
+        self.ui.draw(self.player, self.timer)
+
+        if self.game_state == "win" or self.game_state == "lose":
+            self.game_over.draw(self.screen, self.game_state)
+
+    def restart(self):
+        self.__init__(self.screen_width, self.screen_height, self.screen_title)

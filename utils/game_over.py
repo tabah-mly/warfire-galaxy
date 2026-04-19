@@ -24,7 +24,7 @@ class GameOver:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if self.button_rect.collidepoint(event.pos):
-                    print("RESTART")
+                    # print("RESTART")
                     return True
         return False
 

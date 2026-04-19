@@ -1,8 +1,6 @@
 import pygame
-from utils.bullet import Bullet
 from utils.player_basic import PlayerBasic
 from utils.spritesheet import SpriteSheet
-from utils.pointer import Pointer
 
 
 class Player(PlayerBasic):
@@ -54,5 +52,5 @@ class Player(PlayerBasic):
         if mouse_pressed and self.shoot_timer <= 0:
             self.shoot_timer = self.shoot_cooldown
             self.shoot(self.aim_pointer.pointer_pos, self.aim_pointer.direction)
-            
+
         self.bullet_update(dt)
