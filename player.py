@@ -41,6 +41,6 @@ class Player(PlayerBasic):
 
     def update(self, dt):
         self.handle_input()
-        self.handle_ground(dt, 200)
+        self.handle_ground(dt, 500)
         self.handle_animation(dt)
         self.handle_attack(dt)
