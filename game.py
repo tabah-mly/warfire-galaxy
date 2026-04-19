@@ -2,6 +2,7 @@ import pygame, sys, random
 from utils.camera import Camera
 from utils.game_base import GameBase
 from utils.infinite_background import InfiniteBackground
+from player import Player
 
 class Game(GameBase):
     def __init__(self, width, height, title):
@@ -15,6 +16,10 @@ class Game(GameBase):
 
         self.running = True
 
+        self.background = InfiniteBackground("assets/imgs/bg.png")
+        self.camera = Camera(width, height)
+        self.player = Player(width // 2, height // 2)
+
     def event_listener(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -24,7 +29,9 @@ class Game(GameBase):
         pass
 
     def draw(self):
-        pass
+        self.screen.fill((24, 20, 37))
+        self.background.draw(self.screen, self.camera.offset)
+        self.player.draw(self.screen, self.camera)
 
     def start(self):
         while self.running:
