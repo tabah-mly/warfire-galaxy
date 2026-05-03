@@ -24,7 +24,7 @@ class Game(GameBase):
 
         self.spawn_interval = 2000
         self.timer = 180000
-        self.max_enemies = 8
+        self.max_enemies = 20
 
     def event_listener(self):
         for event in pygame.event.get():
