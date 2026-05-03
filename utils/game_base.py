@@ -53,7 +53,7 @@ class GameBase:
                 if 0 <= local_x < enemy.rect.width and 0 <= local_y < enemy.rect.height:
 
                     if enemy.current_mask.get_at((local_x, local_y)):
-                        enemy.take_damage(10)
+                        enemy.take_damage(1.5)
                         bullet.dead = True
 
         self.player.bullets = [

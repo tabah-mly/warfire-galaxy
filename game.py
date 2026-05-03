@@ -31,14 +31,24 @@ class Game(GameBase):
             if event.type == pygame.QUIT:
                 self.running = False
             self.screen_event_listener(event)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+            self.screen_event_listener(event)
 
     def update(self, dt):
-        pass
+        if self.update_game(dt):
+            return
+        self.player.update(dt)
+        self.base.update(dt)
+        self.update_logics(dt)
 
     def draw(self):
         self.screen.fill((24, 20, 37))
         self.background.draw(self.screen, self.camera.offset)
+        self.base.draw(self.screen, self.camera)
         self.player.draw(self.screen, self.camera)
+        self.draw_view()
 
     def start(self):
         while self.running:

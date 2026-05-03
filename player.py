@@ -26,7 +26,21 @@ class Player(PlayerBasic):
         super().__init__(x, y)
 
     def handle_input(self):
-        pass
+        keys = pygame.key.get_pressed()
+        self.vel_x = 0
+
+        if keys[pygame.K_a]:
+            self.vel_x = -self.speed
+
+        if keys[pygame.K_d]:
+            self.vel_x = self.speed
+
+        if keys[pygame.K_SPACE] and self.on_ground:
+            self.vel_y = -self.jump_force
+            self.on_ground = False
 
     def update(self, dt):
-        pass
+        self.handle_input()
+        self.handle_ground(dt, 500)
+        self.handle_animation(dt)
+        self.handle_attack(dt)
